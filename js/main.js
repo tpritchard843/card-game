@@ -1,22 +1,30 @@
 //Example fetch using https://deckofcardsapi.com/
 document.querySelector('button').addEventListener('click', drawTwo);
 
-let deckId = '';
+let deckIdVal = localStorage.getItem('deckId')
 
-//fetch a deck on page load and store the deck ID
-fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
+if (!localStorage.getItem('deckId')) {
+  fetchDeck();
+}
+
+function fetchDeck() {
+  fetch(`https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1`)
       .then(res => res.json()) // parse response as JSON
       .then(data => {
         console.log(data);
-        deckId= data.deck_id;
+        let deckIdVal= data.deck_id;
+
+        localStorage.setItem('deckId', deckIdVal);
       })
       .catch(err => {
           console.log(`error ${err}`);
       });
+}
+
 
 
 function drawTwo(){
-  const url = `https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=2`
+  const url = `https://deckofcardsapi.com/api/deck/${deckIdVal}/draw/?count=2`
 
   fetch(url)
       .then(res => res.json()) // parse response as JSON
