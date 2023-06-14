@@ -1,7 +1,8 @@
 //Example fetch using https://deckofcardsapi.com/
-document.querySelector('button').addEventListener('click', drawTwo);
+document.querySelector('#drawCardsBtn').addEventListener('click', drawTwo);
+document.querySelector('#newGameBtn').addEventListener('click', newGame);
 
-let deckIdVal = localStorage.getItem('deckId')
+let deckIdVal = localStorage.getItem('deckId');
 
 if (!localStorage.getItem('deckId')) {
   fetchDeck();
@@ -12,7 +13,7 @@ function fetchDeck() {
       .then(res => res.json()) // parse response as JSON
       .then(data => {
         console.log(data);
-        let deckIdVal= data.deck_id;
+        deckIdVal= data.deck_id;
 
         localStorage.setItem('deckId', deckIdVal);
       })
@@ -24,7 +25,7 @@ function fetchDeck() {
 
 
 function drawTwo(){
-  const url = `https://deckofcardsapi.com/api/deck/${deckIdVal}/draw/?count=2`
+  let url = `https://deckofcardsapi.com/api/deck/${deckIdVal}/draw/?count=2`
 
   fetch(url)
       .then(res => res.json()) // parse response as JSON
@@ -60,4 +61,11 @@ function convertToNum(val) {
   } else {
     return Number(val);
   }
+}
+
+function newGame() {
+  localStorage.clear();
+  document.querySelector('#player1').src = null;
+  document.querySelector('#player2').src = null;
+  fetchDeck();
 }
