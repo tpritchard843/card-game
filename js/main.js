@@ -21,8 +21,6 @@ function fetchDeck() {
       });
 }
 
-//fetch a deck on page load and store the deck ID
-
 
 
 function drawTwo(){
